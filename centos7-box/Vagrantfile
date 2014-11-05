@@ -1,0 +1,17 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.provision "shell", inline: "rpm -Uvh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm --force"
+  config.vm.provision "shell", inline: "yum -y install puppet"
+
+  config.vm.box      = "CentOS7"
+  config.vm.hostname = "centos7"
+
+  config.vm.provision :puppet do |puppet|
+    puppet.options = ['--templatedir', '/vagrant/templates']
+  end
+end
